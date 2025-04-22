@@ -23,14 +23,7 @@ WORKDIR /app
 
 # Copy only necessary production files
 COPY package.json package-lock.json* pnpm-lock.yaml* ./
-RUN \
-  if [ -f pnpm-lock.yaml ]; then \
-    npm install -g pnpm && pnpm install --prod; \
-  elif [ -f package-lock.json ]; then \
-    npm ci --omit=dev; \
-  else \
-    npm install --omit=dev; \
-  fi
+RUN npm ci --force;
 
 # Copy built app and config
 COPY --from=builder /app/.next ./.next
